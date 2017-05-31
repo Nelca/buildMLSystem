@@ -8,10 +8,8 @@
 from load import load_dataset
 import numpy as np
 from knn import learn_model, apply_model, accuracy
-import pdb
 
 features, labels = load_dataset('seeds')
-pdb.set_trace()
 
 def cross_validate(features, labels):
     error = 0.0

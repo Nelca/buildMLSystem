@@ -22,8 +22,10 @@ def load_dataset(dataset_name):
     data = []
     labels = []
     file_path = '../data/{0}.tsv'.format(dataset_name)
-    with open(file_path) as ifile:
-        pdb.set_trace()
+    file_data = open(file_path)
+    pdb.set_trace()
+    for ifile in file_data:
+    #with file_data as ifile:
         for line in ifile:
             tokens = line.strip().split('\t')
             data.append([float(tk) for tk in tokens[:-1]])
