@@ -10,7 +10,7 @@ import os
 from matplotlib import pylab
 import numpy as np
 
-DATA_DIR = os.path.join("..", "data")
+DATA_DIR = os.path.join("..", "data/songData")
 CHART_DIR = os.path.join("..", "charts")
 
 GENRE_DIR = "/media/sf_P/pymlbook-data/09-genre-class/genres"

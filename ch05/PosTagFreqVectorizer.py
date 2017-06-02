@@ -219,7 +219,7 @@ class PosTagFreqVectorizer(BaseEstimator):
         term_counts_per_doc = []
         term_counts = Counter()
 
-        analyze = self.build_analyzer()
+        analyze = self.build_analyze()
 
         for doc in raw_documents:
             term_count_current = PosCounter(

@@ -17,9 +17,7 @@ from utils import plot_pr, plot_roc, plot_confusion_matrix, GENRE_LIST
 from fft import read_fft
 
 TEST_DIR = "/media/sf_P/pymlbook-data/09-genre-class/private"
-
 genre_list = GENRE_LIST
-
 
 def train_model(clf_factory, X, Y, name, plot=False):
     labels = np.unique(Y)

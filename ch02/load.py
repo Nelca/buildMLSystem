@@ -22,11 +22,13 @@ def load_dataset(dataset_name):
     data = []
     labels = []
     file_path = '../data/{0}.tsv'.format(dataset_name)
-    file_data = open(file_path)
+    #file_data = open(file_path)
+    #for ifile in file_data:
     pdb.set_trace()
-    for ifile in file_data:
-    #with file_data as ifile:
-        for line in ifile:
+    with open(file_path) as ifile:
+        f_data = ifile.read_all()
+        #for line in ifile:
+        for line in f_data:
             tokens = line.strip().split('\t')
             data.append([float(tk) for tk in tokens[:-1]])
             labels.append(tokens[-1])
