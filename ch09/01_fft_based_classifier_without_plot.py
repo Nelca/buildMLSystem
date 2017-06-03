@@ -6,24 +6,46 @@
 # It is made available under the MIT License
 
 import numpy as np
+import os
+import glob
 from collections import defaultdict
 
 from sklearn.metrics import precision_recall_curve, roc_curve
 from sklearn.metrics import auc
 from sklearn.cross_validation import ShuffleSplit
-
 from sklearn.metrics import confusion_matrix
+GENRE_LIST = ["classical", "jazz", "country", "pop", "rock", "metal"]
 
-from utils import plot_roc, plot_confusion_matrix, GENRE_LIST
+DATA_DIR = os.path.join("..", "data/songData")
+CHART_DIR = os.path.join("..", "charts")
 
-from ceps import read_ceps
+GENRE_DIR = "../data/songData/media/sf_P/pymlbook-data/09-genre-class/genres"
+#GENRE_DIR = "/media/sf_P/pymlbook-data/09-genre-class/genres"
+#from fft import read_fft
+
+
+def read_fft(genre_list, base_dir=GENRE_DIR):
+    X = []
+    y = []
+    for label, genre in enumerate(genre_list):
+        genre_dir = os.path.join(base_dir, genre, "*.fft.npy")
+        file_list = glob.glob(genre_dir)
+        assert(file_list), genre_dir
+        for fn in file_list:
+            fft_features = np.load(fn)
+
+            X.append(fft_features[:2000])
+            y.append(label)
+
+    return np.array(X), np.array(y)
+
+
+
 
 TEST_DIR = "/media/sf_P/pymlbook-data/09-genre-class/private"
-
 genre_list = GENRE_LIST
 
-
-def train_model(clf_factory, X, Y, name, plot=False):
+def train_model(clf_factory, X, Y, name):
     labels = np.unique(Y)
 
     cv = ShuffleSplit(
@@ -81,16 +103,6 @@ def train_model(clf_factory, X, Y, name, plot=False):
             tprs[label].append(tpr)
             fprs[label].append(fpr)
 
-    if plot:
-        for label in labels:
-            print("Plotting", genre_list[label])
-            scores_to_sort = roc_scores[label]
-            median = np.argsort(scores_to_sort)[len(scores_to_sort) / 2]
-
-            desc = "%s %s" % (name, genre_list[label])
-            plot_roc(roc_scores[label][median], desc, tprs[label][median],
-                     fprs[label][median], label='%s vs rest' % genre_list[label])
-
     all_pr_scores = np.asarray(pr_scores.values()).flatten()
     summary = (np.mean(scores), np.std(scores),
                np.mean(all_pr_scores), np.std(all_pr_scores))
@@ -107,15 +119,13 @@ def create_model():
 
 
 if __name__ == "__main__":
-    X, y = read_ceps(genre_list)
+    X, y = read_fft(genre_list)
 
     train_avg, test_avg, cms = train_model(
-        create_model, X, y, "Log Reg CEPS", plot=True)
+        create_model, X, y, "Log Reg FFT")
 
     cm_avg = np.mean(cms, axis=0)
     cm_norm = cm_avg / np.sum(cm_avg, axis=0)
 
     print(cm_norm)
 
-    plot_confusion_matrix(cm_norm, genre_list, "ceps",
-                          "Confusion matrix of a CEPS based classifier")

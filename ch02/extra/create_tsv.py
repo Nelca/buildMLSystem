@@ -7,11 +7,13 @@
 
 import milksets.iris
 import milksets.seeds
+import pdb
 
 
 def save_as_tsv(fname, module):
     features, labels = module.load()
     nlabels = [module.label_names[ell] for ell in labels]
+    pdb.set_trace()
     with open(fname, 'w') as ofile:
         for f, n in zip(features, nlabels):
             print(ofile, "\t".join(map(str, f)), [n])
