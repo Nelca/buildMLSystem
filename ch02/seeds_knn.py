@@ -8,6 +8,7 @@
 from load import load_dataset
 import numpy as np
 from knn import learn_model, apply_model, accuracy
+import sklern.
 
 features, labels = load_dataset('seeds')
 

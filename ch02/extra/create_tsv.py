@@ -16,7 +16,9 @@ def save_as_tsv(fname, module):
     pdb.set_trace()
     with open(fname, 'w') as ofile:
         for f, n in zip(features, nlabels):
-            print(ofile, "\t".join(map(str, f)), [n])
+            ofile.wirte(map(str, f)), [n])
+            ofile.wirte("\t")
+            print(ofile, "\t" .join(map(str, f)), [n])
 
 save_as_tsv('iris.tsv', milksets.iris)
 save_as_tsv('seeds.tsv', milksets.seeds)
