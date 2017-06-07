@@ -12,7 +12,6 @@ import glob
 import numpy as np
 import scipy
 import scipy.io.wavfile
-import pdb
 
 GENRE_DIR = "../data/songData/genres"
 CHART_DIR = os.path.join("..", "charts")
@@ -25,16 +24,12 @@ def write_fft(fft_features, fn):
     base_fn, ext = os.path.splitext(fn)
     data_fn = base_fn + ".fft"
 
-    pdb.set_trace()
-
     np.save(data_fn, fft_features)
     print("Written", data_fn)
 
 
 def create_fft(fn):
     sample_rate, X = scipy.io.wavfile.read(fn)
-
-    pdb.set_trace()
 
     fft_features = abs(scipy.fft(X)[:1000])
     write_fft(fft_features, fn)
@@ -57,9 +52,7 @@ def read_fft(genre_list, base_dir=GENRE_DIR):
 
 
 if __name__ == "__main__":
-    #fn_list = glob.glob(os.path.join(sys.argv[1], "*.wav"))
-    fn_list = glob.glob(sys.argv[1] +  "*.wav")
-    pdb.set_trace()
+    fn_list = glob.glob(os.path.join(sys.argv[1], "*.wav"))
     for fn in fn_list:
         create_fft(fn)
 

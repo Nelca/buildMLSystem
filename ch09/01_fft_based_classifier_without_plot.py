@@ -16,10 +16,10 @@ from sklearn.cross_validation import ShuffleSplit
 from sklearn.metrics import confusion_matrix
 GENRE_LIST = ["classical", "jazz", "country", "pop", "rock", "metal"]
 
-DATA_DIR = os.path.join("..", "data/songData")
+DATA_DIR = os.path.join("..", "data/songData/test/")
 CHART_DIR = os.path.join("..", "charts")
 
-GENRE_DIR = "../data/songData/genres"
+GENRE_DIR = "../data/songData/test"
 #GENRE_DIR = "/media/sf_P/pymlbook-data/09-genre-class/genres"
 #from fft import read_fft
 
