@@ -10,16 +10,22 @@ import os
 import glob
 from collections import defaultdict
 
+import pdb
+
 from sklearn.metrics import precision_recall_curve, roc_curve
 from sklearn.metrics import auc
 from sklearn.cross_validation import ShuffleSplit
 from sklearn.metrics import confusion_matrix
 GENRE_LIST = ["classical", "jazz", "country", "pop", "rock", "metal"]
 
-DATA_DIR = os.path.join("..", "data/songData/test/")
+DATA_DIR = os.path.join("..", "data/songData/")
 CHART_DIR = os.path.join("..", "charts")
 
-GENRE_DIR = "../data/songData/test"
+GENRE_DIR = "../data/songData/genres/"
+
+TEST_DIR = "/media/sf_P/pymlbook-data/09-genre-class/private"
+genre_list = GENRE_LIST
+
 #GENRE_DIR = "/media/sf_P/pymlbook-data/09-genre-class/genres"
 #from fft import read_fft
 
@@ -39,17 +45,11 @@ def read_fft(genre_list, base_dir=GENRE_DIR):
 
     return np.array(X), np.array(y)
 
-
-
-
-TEST_DIR = "/media/sf_P/pymlbook-data/09-genre-class/private"
-genre_list = GENRE_LIST
-
 def train_model(clf_factory, X, Y, name):
     labels = np.unique(Y)
 
     cv = ShuffleSplit(
-        n=len(X), n_iter=1, test_size=0.3, indices=True, random_state=0)
+        n=len(X), n_iter=1, test_size=0.3, random_state=0)
 
     train_errors = []
     test_errors = []
@@ -104,8 +104,14 @@ def train_model(clf_factory, X, Y, name):
             fprs[label].append(fpr)
 
     all_pr_scores = np.asarray(pr_scores.values()).flatten()
-    summary = (np.mean(scores), np.std(scores),
-               np.mean(all_pr_scores), np.std(all_pr_scores))
+    pdb.set_trace()
+    all_pr_scores_dictval = all_pr_scores[0]
+    np_m_sc = np.mean(scores)
+    np_std_sc = np.std(scores)
+    np_m_all_sc = np.mean(all_pr_scores_dictval)
+    np_std_all_sc = np.std(all_pr_scores_dictval)
+    summary = (np_m_sc, np_std_sc,
+               np_m_all_sc, np_std_all_sc)
     print("%.3f\t%.3f\t%.3f\t%.3f\t" % summary)
 
     return np.mean(train_errors), np.mean(test_errors), np.asarray(cms)

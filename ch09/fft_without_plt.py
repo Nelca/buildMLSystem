@@ -13,7 +13,7 @@ import numpy as np
 import scipy
 import scipy.io.wavfile
 
-GENRE_DIR = "../data/songData/genres"
+GENRE_DIR = "../data/songData/genres/"
 CHART_DIR = os.path.join("..", "charts")
 
 
