@@ -14,7 +14,7 @@ import scipy
 import scipy.io.wavfile
 from scikits.talkbox.features import mfcc
 
-from utils import GENRE_DIR
+GENRE_DIR = "../data/songData/genres/"
 
 
 def write_ceps(ceps, fn):
