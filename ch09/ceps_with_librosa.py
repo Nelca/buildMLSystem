@@ -12,7 +12,7 @@ import sys
 import numpy as np
 import scipy
 import scipy.io.wavfile
-from scikits.talkbox.features import mfcc
+import librosa
 
 GENRE_DIR = "../data/songData/genres/"
 
@@ -28,9 +28,9 @@ def write_ceps(ceps, fn):
 
 
 def create_ceps(fn):
-    sample_rate, X = scipy.io.wavfile.read(fn)
+    y, sr = librosa.load(fn)
+    ceps = librosa.feature.mfcc(y=y, sr=sr)
 
-    ceps, mspec, spec = mfcc(X)
     write_ceps(ceps, fn)
 
 
