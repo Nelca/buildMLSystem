@@ -11,6 +11,7 @@ from collections import defaultdict
 from sklearn.metrics import precision_recall_curve, roc_curve
 from sklearn.metrics import auc
 from sklearn.cross_validation import ShuffleSplit
+from sklearn.linear_model.logistic import LogisticRegression
 
 from sklearn.metrics import confusion_matrix
 
@@ -50,9 +51,7 @@ def train_model(clf_factory, X, Y, name):
     for train, test in cv:
         X_train, y_train = X[train], Y[train]
         X_test, y_test = X[test], Y[test]
-
         pdb.set_trace()
-
         clf = clf_factory()
         clf.fit(X_train, y_train)
         clfs.append(clf)
@@ -94,7 +93,6 @@ def train_model(clf_factory, X, Y, name):
 
 
 def create_model():
-    from sklearn.linear_model.logistic import LogisticRegression
     clf = LogisticRegression()
 
     return clf

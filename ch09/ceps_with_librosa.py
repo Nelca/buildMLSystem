@@ -14,6 +14,8 @@ import scipy
 import scipy.io.wavfile
 import librosa
 
+import pdb
+
 GENRE_DIR = "../data/songData/genres/"
 
 
@@ -41,8 +43,14 @@ def read_ceps(genre_list, base_dir=GENRE_DIR):
         for fn in glob.glob(os.path.join(base_dir, genre, "*.ceps.npy")):
             ceps = np.load(fn)
             num_ceps = len(ceps)
-            X.append(
-                np.mean(ceps[int(num_ceps / 10):int(num_ceps * 9 / 10)], axis=0))
+            ceps_mean = np.mean(ceps[int(num_ceps / 10):int(num_ceps * 9 / 10)], axis=0)
+
+            t_ceps = ceps.transpose()
+            t_num_ceps = len(t_ceps)
+            t_ceps_mean = np.mean(t_ceps[int(t_num_ceps / 10):int(t_num_ceps * 9 / 10)], axis=0)
+
+            #X.append(ceps_mean)
+            X.append(t_ceps_mean)
             y.append(label)
 
     return np.array(X), np.array(y)
