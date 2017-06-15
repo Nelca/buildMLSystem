@@ -29,20 +29,14 @@ genre_list = GENRE_LIST
 def train_model(clf_factory, X, Y, name):
     labels = np.unique(Y)
 
-    cv = ShuffleSplit(
-        n=len(X), n_iter=1, test_size=0.3, random_state=0)
+    cv = ShuffleSplit(n=len(X), n_iter=1, test_size=0.3, random_state=0)
 
     train_errors = []
     test_errors = []
 
     scores = []
     pr_scores = defaultdict(list)
-    precisions, recalls, thresholds = defaultdict(
-        list), defaultdict(list), defaultdict(list)
-
-    roc_scores = defaultdict(list)
-    tprs = defaultdict(list)
-    fprs = defaultdict(list)
+    pdb.set_trace()
 
     clfs = []  # just to later get the median
 
@@ -51,7 +45,6 @@ def train_model(clf_factory, X, Y, name):
     for train, test in cv:
         X_train, y_train = X[train], Y[train]
         X_test, y_test = X[test], Y[test]
-        pdb.set_trace()
         clf = clf_factory()
         clf.fit(X_train, y_train)
         clfs.append(clf)
@@ -72,21 +65,13 @@ def train_model(clf_factory, X, Y, name):
             proba = clf.predict_proba(X_test)
             proba_label = proba[:, label]
 
-            precision, recall, pr_thresholds = precision_recall_curve(
-                y_label_test, proba_label)
+            precision, recall, pr_thresholds = precision_recall_curve(y_label_test, proba_label)
             pr_scores[label].append(auc(recall, precision))
-            precisions[label].append(precision)
-            recalls[label].append(recall)
-            thresholds[label].append(pr_thresholds)
-
-            fpr, tpr, roc_thresholds = roc_curve(y_label_test, proba_label)
-            roc_scores[label].append(auc(fpr, tpr))
-            tprs[label].append(tpr)
-            fprs[label].append(fpr)
 
     all_pr_scores = np.asarray(pr_scores.values()).flatten()
-    summary = (np.mean(scores), np.std(scores),
-               np.mean(all_pr_scores), np.std(all_pr_scores))
+    npa_all_pr_scores = np.array(all_pr_scores[0])
+    pdb.set_trace()
+    summary = (np.mean(scores), np.std(scores), np.mean(all_pr_scores[0]), np.std(all_pr_scores[0]))
     print("%.3f\t%.3f\t%.3f\t%.3f\t" % summary)
 
     return np.mean(train_errors), np.mean(test_errors), np.asarray(cms)
@@ -101,8 +86,7 @@ def create_model():
 if __name__ == "__main__":
     X, y = read_ceps(genre_list)
 
-    train_avg, test_avg, cms = train_model(
-        create_model, X, y, "Log Reg CEPS")
+    train_avg, test_avg, cms = train_model(create_model, X, y, "Log Reg CEPS")
 
     cm_avg = np.mean(cms, axis=0)
     cm_norm = cm_avg / np.sum(cm_avg, axis=0)
