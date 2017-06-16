@@ -20,7 +20,6 @@ from ceps_with_librosa import read_ceps
 
 import pdb
 
-#GENRE_LIST = ["classical", "jazz", "country", "pop", "rock", "metal"]
 GENRE_LIST = ["blues", "classical", "jazz", "country", "pop", "rock", "metal"]
 TEST_DIR = "/media/sf_P/pymlbook-data/09-genre-class/private"
 
@@ -38,7 +37,6 @@ def train_model(clf_factory, X, Y, name):
     scores = []
     pr_scores = defaultdict(list)
     pr_scores_list = np.array([])
-    pdb.set_trace()
 
     clfs = []  # just to later get the median
 
@@ -69,14 +67,11 @@ def train_model(clf_factory, X, Y, name):
 
             precision, recall, pr_thresholds = precision_recall_curve(y_label_test, proba_label)
             auc_result = auc(recall, precision)
-            pdb.set_trace()
             pr_scores[label].append(auc(recall, precision))
-            #pr_scores_list.append(auc_result)
+            pr_scores_list = np.append(pr_scores_list, auc_result)
 
-    all_pr_scores = np.asarray(pr_scores.values()).flatten()
-    npa_all_pr_scores = np.array(all_pr_scores[0])
     pdb.set_trace()
-    summary = (np.mean(scores), np.std(scores), np.mean(all_pr_scores[0]), np.std(all_pr_scores[0]))
+    summary = (np.mean(scores), np.std(scores), np.mean(pr_scores_list), np.std(pr_scores_list))
     print("%.3f\t%.3f\t%.3f\t%.3f\t" % summary)
 
     return np.mean(train_errors), np.mean(test_errors), np.asarray(cms)
