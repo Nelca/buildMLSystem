@@ -1,7 +1,6 @@
 import librosa
 
 file_path = "/home/minato/deep_learning/buildMLSystem/data/songData/genres/blues/blues.00018.wav"
-file_path = "/home/minato/deep_learning/buildMLSystem/data/songData/genres/blues/blues.00018.wav"
 
 y, sr = librosa.load(file_path)
 
