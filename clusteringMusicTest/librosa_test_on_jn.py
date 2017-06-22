@@ -92,7 +92,7 @@ plt.colorbar()
 plt.tight_layout()
 
 
-# In[12]:
+# In[10]:
 
 mfcc = librosa.feature.mfcc(S=log_S, n_mfcc=13)
 
@@ -120,7 +120,48 @@ plt.tight_layout()
 M = np.vstack([mfcc, delta_mfcc, delta2_mfcc])
 
 
-# In[ ]:
+# In[14]:
 
-tempo, beat
+tempo, beats = librosa.beat.beat_track(y=y_percussive, sr=sr)
+
+plt.figure(figsize=(12, 4))
+librosa.display.specshow(log_S, sr=sr, x_axis='time', y_axis='mel')
+plt.vlines(librosa.frames_to_time(beats),
+          1, 0.5 * sr,
+          colors='w', linestyles='-', linewidth=2, alpha=0.5)
+
+plt.axis('tight')
+plt.colorbar(format='%+02.0f dB')
+plt.tight_layout()
+
+
+# In[15]:
+
+print('Estimated tempo :%.2f BPM' % tempo)
+print('First 5 beat frames:', beats[:5] )
+print('Frist 5 beat times:', librosa.frames_to_time(beats[:5], sr=sr))
+
+
+# In[18]:
+
+M_sync = librosa.util.sync(M, beats)
+
+plt.figure(figsize=(12, 6))
+plt.subplot(2, 1, 1)
+librosa.display.specshow(M)
+plt.title('MFCC-$\Delta$-$\Delta^2$')
+
+plt.yticks(np.arange(0, M.shape[0], 13), ['MFCC', '$\Delta$', '$\Delta^2$'])
+
+plt.colorbar()
+
+plt.subplot(2, 1, 2)
+
+librosa.display.specshow(M_sync, x_axis='time',
+                        x_coords=librosa.frames_to_time(librosa.util.fix_frames(beats)))
+plt.yticks(np.arange(0, M_sync.shape[0], 13), ['MFCC', '$\Delta$', '$\Delta^2$'])
+plt.title('Beat-synchronus MFCC-$\Delta$-$\Delta^2$')
+plt.colorbar()
+
+plt.tight_layout()
 
