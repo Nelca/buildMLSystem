@@ -120,7 +120,7 @@ plt.tight_layout()
 M = np.vstack([mfcc, delta_mfcc, delta2_mfcc])
 
 
-# In[14]:
+# In[11]:
 
 tempo, beats = librosa.beat.beat_track(y=y_percussive, sr=sr)
 
@@ -135,14 +135,14 @@ plt.colorbar(format='%+02.0f dB')
 plt.tight_layout()
 
 
-# In[15]:
+# In[12]:
 
 print('Estimated tempo :%.2f BPM' % tempo)
 print('First 5 beat frames:', beats[:5] )
 print('Frist 5 beat times:', librosa.frames_to_time(beats[:5], sr=sr))
 
 
-# In[18]:
+# In[13]:
 
 M_sync = librosa.util.sync(M, beats)
 
@@ -163,5 +163,24 @@ plt.yticks(np.arange(0, M_sync.shape[0], 13), ['MFCC', '$\Delta$', '$\Delta^2$']
 plt.title('Beat-synchronus MFCC-$\Delta$-$\Delta^2$')
 plt.colorbar()
 
+plt.tight_layout()
+
+
+# In[16]:
+
+C_sync = librosa.util.sync(C, beats, aggregate=np.median)
+
+plt.figure(figsize=(12, 6))
+
+plt.subplot(2, 1, 1)
+librosa.display.specshow(C, sr=sr, y_axis='chroma', vmin=0.0, vmax=1.0, x_axis='time')
+plt.title('Chroma')
+plt.colorbar()
+
+plt.subplot(2, 1, 2)
+librosa.display.specshow(C_sync, y_axis='chroma', vmin=0.0, vmax=1.0, x_axis='time',
+                        x_coords=librosa.frames_to_time(librosa.util.fix_frames(beats)))
+plt.title('Beat-synchronus Chroma (median aggregation)')
+plt.colorbar()
 plt.tight_layout()
 

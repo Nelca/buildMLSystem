@@ -1,4 +1,10 @@
+import numpy as np
+import scipy
+import matplotlib.pyplot as plt
+import sklearn.cluster
+
 import librosa
+import librosa.display
 
 file_path = "/home/minato/deep_learning/buildMLSystem/data/songData/genres/blues/blues.00018.wav"
 
@@ -38,3 +44,14 @@ print("")
 print("percussive is")
 print(y_percussive)
 
+#### ----- to test the laplas...
+
+
+BINS_PER_OCTAVE = 12 * 3
+N_OCTAVE = 7
+
+C = librosa.amplitude_to_db(librosa.cqt(y=y, sr=sr,
+                            bins_per_octave=BINS_PER_OCTAVE,\n",
+    "                                        n_bins=N_OCTAVE * BINS_PER_OCTAVE),\n",
+
+p
