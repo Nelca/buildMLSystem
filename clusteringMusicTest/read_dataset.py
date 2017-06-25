@@ -11,12 +11,23 @@ import sys
 
 import numpy as np
 import scipy
-import scipy.io.wavfile
 import librosa
 
-import pdb
+from sklearn.model_selection import train_test_split
+
 
 GENRE_DIR = "../data/songData/genres/"
+GENRE_LIST = []
+GENRE_LIST.append("blues")
+GENRE_LIST.append("classical")
+GENRE_LIST.append("country")
+GENRE_LIST.append("disco")
+GENRE_LIST.append("hiphop")
+GENRE_LIST.append("jazz")
+GENRE_LIST.append("metal")
+GENRE_LIST.append("pop")
+GENRE_LIST.append("reggae")
+GENRE_LIST.append("rock")
 
 
 def write_ceps(ceps, fn):
@@ -35,6 +46,30 @@ def create_ceps(fn):
 
     write_ceps(ceps, fn)
 
+def read_ceps_with_train_test(genre_list=GENRE_LIST, base_dir=GENRE_DIR):
+    X = []
+    y = []
+    for label, genre in enumerate(genre_list):
+        for fn in glob.glob(os.path.join(base_dir, genre, "*.ceps.npy")):
+            ceps = np.load(fn)
+            num_ceps = len(ceps)
+            ceps_mean = np.mean(ceps[int(num_ceps / 10):int(num_ceps * 9 / 10)], axis=0)
+
+            t_ceps = ceps.transpose()
+            t_num_ceps = len(t_ceps)
+            t_ceps_mean = np.mean(t_ceps[int(t_num_ceps / 10):int(t_num_ceps * 9 / 10)], axis=0)
+
+            #X.append(ceps_mean)
+            X.append(t_ceps_mean)
+            y.append(label)
+
+    all_x_data = np.array(X)
+    all_y_data = np.array(y)
+
+    X_train, X_test, y_train, y_test = train_test_split(
+            all_x_data, all_y_data, test_size=0.4, random_state=13)
+
+    return X_train, X_test, y_train, y_test
 
 def read_ceps(genre_list, base_dir=GENRE_DIR):
     X = []
