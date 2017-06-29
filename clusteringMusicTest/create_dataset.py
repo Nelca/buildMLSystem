@@ -10,8 +10,6 @@ import glob
 import sys
 
 import numpy as np
-import scipy
-import librosa
 
 from sklearn.model_selection import train_test_split
 
@@ -37,8 +35,6 @@ def create_ceps_all_data():
     for label, genre in enumerate(genre_list):
         for fn in glob.glob(os.path.join(base_dir, genre, "*.ceps.npy")):
             ceps = np.load(fn)
-            num_ceps = len(ceps)
-            ceps_mean = np.mean(ceps[int(num_ceps / 10):int(num_ceps * 9 / 10)], axis=0)
 
             t_ceps = ceps.transpose()
             t_num_ceps = len(t_ceps)
