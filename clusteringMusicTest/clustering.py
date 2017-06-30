@@ -16,9 +16,8 @@ from sklearn.linear_model.logistic import LogisticRegression
 from sklearn.metrics import confusion_matrix
 
 
-from ceps_with_librosa import read_ceps
+from read_dataset import read_ceps
 
-import pdb
 
 GENRE_LIST = ["blues", "classical", "jazz", "country", "pop", "rock", "metal"]
 TEST_DIR = "/media/sf_P/pymlbook-data/09-genre-class/private"
@@ -70,7 +69,6 @@ def train_model(clf_factory, X, Y, name):
             pr_scores[label].append(auc(recall, precision))
             pr_scores_list = np.append(pr_scores_list, auc_result)
 
-    pdb.set_trace()
     summary = (np.mean(scores), np.std(scores), np.mean(pr_scores_list), np.std(pr_scores_list))
     print("%.3f\t%.3f\t%.3f\t%.3f\t" % summary)
 
