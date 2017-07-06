@@ -27,6 +27,31 @@ GENRE_LIST.append("pop")
 GENRE_LIST.append("reggae")
 GENRE_LIST.append("rock")
 
+
+def create_ceps3d_all_data():
+    genre_list = GENRE_LIST
+    base_dir = GENRE_DIR
+    X = []
+    y = []
+    for label, genre in enumerate(genre_list):
+        for fn in glob.glob(os.path.join(base_dir, genre, "*.ceps3d.npy")):
+            ceps3d = np.load(fn)
+
+            X.append(ceps3d)
+            y.append(label)
+
+    all_x_data = np.array(X)
+    all_y_data = np.array(y)
+
+    x_data_path = GENRE_DIR + 'x_3d_all_data'
+    y_data_path = GENRE_DIR + 'y_3d_all_data'
+
+    np.save(x_data_path, all_x_data)
+    np.save(y_data_path, all_y_data)
+    print("Written", x_data_path)
+    print("Written", y_data_path)
+
+
 def create_ceps_all_data():
     genre_list = GENRE_LIST
     base_dir = GENRE_DIR

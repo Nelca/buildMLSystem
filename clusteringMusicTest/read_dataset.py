@@ -45,6 +45,42 @@ def create_ceps(fn):
 
     write_ceps(ceps, fn)
 
+def read_ceps3d_with_train_test(base_dir=GENRE_DIR, recreate_data=False):
+    X_train_path = GENRE_DIR + 'X_3d_train'
+    X_test_path =  GENRE_DIR + 'X_3d_test'
+    y_train_path= GENRE_DIR + 'y_3d_train'
+    y_test_path = GENRE_DIR + 'y_3d_test'
+    if (recreate_data) :
+        x_data_path = GENRE_DIR  + 'x_3d_all_data.npy'
+        y_data_path = GENRE_DIR + 'y_3d_all_data.npy'
+
+        all_x_data = np.load(x_data_path)
+        all_y_data = np.load(y_data_path)
+
+        X_train, X_test, y_train, y_test = train_test_split(
+                all_x_data, all_y_data, test_size=0.4, random_state=13)
+
+        np.save(X_train_path, X_train)
+        np.save(X_test_path, X_test)
+        np.save(y_train_path, y_train)
+        np.save(y_test_path, y_test)
+
+    else :
+        X_train_path = X_train_path + '.npy'
+        X_test_path = X_test_path + '.npy'
+        y_train_path = y_train_path + '.npy'
+        y_test_path = y_test_path + '.npy'
+
+
+        X_train = np.load(X_train_path)
+        X_test = np.load(X_test_path)
+        y_train = np.load(y_train_path)
+        y_test = np.load(y_test_path)
+
+
+    return X_train, X_test, y_train, y_test
+
+
 def read_ceps_with_train_test(base_dir=GENRE_DIR, recreate_data=False):
     X_train_path = GENRE_DIR + 'X_train'
     X_test_path =  GENRE_DIR + 'X_test'
