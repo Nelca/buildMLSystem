@@ -34,10 +34,10 @@ def create_ceps3d_all_data():
     X = []
     y = []
     for label, genre in enumerate(genre_list):
-        for fn in glob.glob(os.path.join(base_dir, genre, "*.ceps3d.npy")):
-            ceps3d = np.load(fn)
+        for fn in glob.glob(os.path.join(base_dir, genre, "*.mfcc3d.npy")):
+            mfcc3d = np.load(fn)
 
-            X.append(ceps3d)
+            X.append(mfcc3d)
             y.append(label)
 
     all_x_data = np.array(X)
