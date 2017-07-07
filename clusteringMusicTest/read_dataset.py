@@ -13,6 +13,7 @@ import numpy as np
 import librosa
 
 from sklearn.model_selection import train_test_split
+import keras
 
 
 GENRE_DIR = "../data/songData/genres/"
@@ -59,6 +60,14 @@ def read_ceps3d_with_train_test(base_dir=GENRE_DIR, recreate_data=False):
 
         X_train, X_test, y_train, y_test = train_test_split(
                 all_x_data, all_y_data, test_size=0.4, random_state=13)
+        print("check shape of y_train")
+        print(y_train.shape)
+
+        y_train = keras.utils.to_categorical(y_train, num_classes=10)
+        y_test = keras.utils.to_categorical(y_test, num_classes=10)
+
+        print("check shape of categoricaled y_train")
+        print(y_train.shape)
 
         np.save(X_train_path, X_train)
         np.save(X_test_path, X_test)
@@ -71,12 +80,10 @@ def read_ceps3d_with_train_test(base_dir=GENRE_DIR, recreate_data=False):
         y_train_path = y_train_path + '.npy'
         y_test_path = y_test_path + '.npy'
 
-
         X_train = np.load(X_train_path)
         X_test = np.load(X_test_path)
         y_train = np.load(y_train_path)
         y_test = np.load(y_test_path)
-
 
     return X_train, X_test, y_train, y_test
 
