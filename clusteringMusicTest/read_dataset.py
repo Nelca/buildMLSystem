@@ -135,7 +135,6 @@ def read_ceps3d_with_train_test(base_dir=GENRE_DIR, recreate_data=False):
     return X_train, X_test, y_train, y_test
 
 def read_mfcc_with_train_test(base_dir=GENRE_DIR, recreate_data=False):
-    read_dataset_with_train_test(data_type="mfcc", base_dir=base_dir, recreate_data=recreate_data)
     X_train_path = GENRE_DIR + 'X_mfcc_train'
     X_test_path =  GENRE_DIR + 'X_mfcc_test'
     y_train_path= GENRE_DIR + 'y_mfcc_train'
