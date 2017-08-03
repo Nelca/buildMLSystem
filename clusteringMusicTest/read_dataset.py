@@ -40,12 +40,7 @@ def read_dataset_with_train_test(data_type="", base_dir=GENRE_DIR, recreate_data
 
         y_train = keras.utils.to_categorical(y_train, num_classes=10)
         y_test = keras.utils.to_categorical(y_test, num_classes=10)
-        print("recreated data as follow.")
-        print("X_train shape is " + X_train.shape)
-        print("y_train shape is " + y_train.shape)
-        print("X_test shape is " + X_test.shape)
-        print("y_test shape is " + y_test.shape)
-
+        
         np.save(X_train_path, X_train)
         np.save(X_test_path, X_test)
         np.save(y_train_path, y_train)
