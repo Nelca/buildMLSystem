@@ -12,8 +12,8 @@ import sys
 import numpy as np
 import librosa
 
-from sklearn.model_selection import train_test_split
-import keras
+from sklearn.preprocessing import StandardScaler
+from sklearn.externals import joblib
 
 
 GENRE_DIR = "../data/songData/genres/"
@@ -61,6 +61,21 @@ def read_ceps(genre_list, base_dir=GENRE_DIR):
 
     return np.array(X), np.array(y)
 
+def createCepsSS():
+    file_path = "../data/songData/genres/x_ceps_all_data.npy"
+    ss_file_path = "./savedStanderdScaler/ceps_ss.pkl"
+    print("load all ceps data")
+    all_x_data = np.load(file_path)
+    print("loaded!!")
+    print("creating standard scaler model...")
+    n = all_x_data.shape[0]
+    reshaped_data = all_x_data.reshape(n, -1)
+
+    ss = StandardScaler()
+    ss.fit(reshaped_data)
+    joblib.dump(ss, ss_file_path)
+    print("saved ceps standard scaler.")
+    print("file is " + ss_file_path)
 
 if __name__ == "__main__":
     os.chdir(GENRE_DIR)

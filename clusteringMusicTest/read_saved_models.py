@@ -1,6 +1,10 @@
 from sklearn.externals import joblib
 from keras.models import load_model
 
+def loadCepsStanderdScaler():
+    saved_ss = joblib.load('./savedStanderdScaler/ceps_ss.pkl')
+    return saved_ss
+
 def loadMfccStanderdScaler():
     saved_ss = joblib.load('./savedStanderdScaler/mfcc_ss.pkl')
     return saved_ss
