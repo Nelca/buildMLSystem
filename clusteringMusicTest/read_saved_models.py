@@ -18,7 +18,6 @@ def loadKerasModel(file_name):
     loaded_model = load_model('./savedModels/' + file_name + '.h5')
     return loaded_model
 
-
 def loadCepsDenseModel():
     loaded_model = loadKerasModel('ceps_dense_model')
     return loaded_model
@@ -27,3 +26,6 @@ def loadMfcc3dCnnModel():
     loaded_model = loadKerasModel('ceps_cnn3d_model')
     return loaded_model
 
+def loadMfcc1dCnnModel():
+    loaded_model = loadKerasModel('ceps_cnn1d_model')
+    return loaded_model
