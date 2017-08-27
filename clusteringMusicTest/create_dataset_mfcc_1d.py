@@ -18,7 +18,7 @@ import matplotlib.style as ms
 ms.use('seaborn-muted')
 get_ipython().magic('matplotlib inline')
 
-GENRE_DIR = "/home/minato/deep_learning/buildMLSystem/data/data/songData/genres/"
+GENRE_DIR = "/home/minato/deep_learning/buildMLSystem/data/songData/genres/"
 GENRE_LIST = []
 #0
 GENRE_LIST.append("blues")
@@ -52,7 +52,7 @@ def create_data_for_conv(genre_list=GENRE_LIST):
             create_mfcc_1d(fn) 
 
 
-# In[8]:
+# In[3]:
 
 def create_mfcc_1d(fn):
     y, sr = librosa.load(fn)
@@ -64,10 +64,13 @@ def create_mfcc_1d(fn):
         mfcc = np.append(mfcc, add_list, axis=1)
     elif  last_dim > 1293:
         mfcc = mfcc[:,:1293]
+    data = []
+    data.append(mfcc)
+    data = np.array(data)
     
     base_fn, ext = os.path.splitext(fn)
     data_fn = base_fn + ".mfcc1d"
-    np.save(data_fn, mfcc)
+    np.save(data_fn, data)
     print("Written", data_fn)
 
 
@@ -81,9 +84,6 @@ def create_ceps1d_all_data():
     for label, genre in enumerate(genre_list):
         for fn in glob.glob(os.path.join(base_dir, genre, "*.mfcc1d.npy")):
             mfcc1d = np.load(fn)
-            if mfcc1d[0][0].shape[0] != 1293:
-                print("file shape is", mfcc1d.shape)
-                print("fn is", fn)
             X.append(mfcc1d)
             y.append(label)
 
@@ -100,7 +100,7 @@ def create_ceps1d_all_data():
     print("Written", y_data_path)
 
 
-# In[5]:
+# In[ ]:
 
 def prepare_mfcc3d_data():
     genre_list = GENRE_LIST
@@ -119,13 +119,13 @@ def prepare_mfcc3d_data():
                 print("recreate data of", fn)
 
 
-# In[6]:
+# In[ ]:
 
 import subprocess
 subprocess.run(['jupyter', 'nbconvert', '--to', 'python', 'create_dataset_mfcc_1d.ipynb'])
 
 
-# In[10]:
+# In[ ]:
 
 create_data_for_conv()
 
