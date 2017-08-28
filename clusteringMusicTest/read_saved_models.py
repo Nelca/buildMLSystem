@@ -13,6 +13,9 @@ def loadMfcc3dStanderdScaler():
     saved_ss = joblib.load('./savedStanderdScaler/mfcc_3d_ss.pkl')
     return saved_ss
 
+def loadMfcc1dStanderdScaler():
+    saved_ss = joblib.load('./savedStanderdScaler/mfcc_1d_ss.pkl')
+    return saved_ss
 
 def loadKerasModel(file_name):
     loaded_model = load_model('./savedModels/' + file_name + '.h5')
