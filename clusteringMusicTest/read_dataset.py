@@ -36,7 +36,7 @@ def read_dataset_with_train_test(data_type="", base_dir=GENRE_DIR, recreate_data
         all_y_data = np.load(y_data_path)
 
         X_train, X_test, y_train, y_test = train_test_split(
-                all_x_data, all_y_data, test_size=0.4, random_state=13)
+                all_x_data, all_y_data, test_size=0.2, random_state=13)
 
         y_train = keras.utils.to_categorical(y_train, num_classes=10)
         y_test = keras.utils.to_categorical(y_test, num_classes=10)
