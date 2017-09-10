@@ -72,6 +72,10 @@ def read_mfcc_with_train_test(base_dir=GENRE_DIR, recreate_data=False):
     X_train, X_test, y_train, y_test = read_dataset_with_train_test(data_type="mfcc", base_dir=base_dir, recreate_data=recreate_data)
     return X_train, X_test, y_train, y_test
 
+def read_mfcc_10frame_with_train_test(base_dir=GENRE_DIR, recreate_data=False):
+    X_train, X_test, y_train, y_test = read_dataset_with_train_test(data_type="mfcc_10frame", base_dir=base_dir, recreate_data=recreate_data)
+    return X_train, X_test, y_train, y_test
+
 def read_ceps_with_train_test(base_dir=GENRE_DIR, recreate_data=False):
     X_train, X_test, y_train, y_test = read_dataset_with_train_test(data_type="ceps", base_dir=base_dir, recreate_data=recreate_data)
     return X_train, X_test, y_train, y_test
