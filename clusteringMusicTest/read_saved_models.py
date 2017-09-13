@@ -36,3 +36,7 @@ def loadMfcc3dCnnModel():
 def loadMfcc1dCnnModel():
     loaded_model = loadKerasModel('ceps_cnn1d_model')
     return loaded_model
+
+def loadConvLstmModel():
+    loaded_model = loadKerasModel('ceps_conv_lstm_model')
+    return loaded_model
